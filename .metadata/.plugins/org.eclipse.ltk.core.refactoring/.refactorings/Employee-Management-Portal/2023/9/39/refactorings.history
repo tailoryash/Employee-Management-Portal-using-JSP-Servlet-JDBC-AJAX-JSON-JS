@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;com.promount&apos; to &apos;com.promount.controller&apos;&#x0D;&#x0A;- Original project: &apos;Employee-Management-Portal&apos;&#x0D;&#x0A;- Original element: &apos;Employee-Management-Portal/src/com.promount&apos;&#x0D;&#x0A;- Renamed element: &apos;Employee-Management-Portal/src/com.promount.controller&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;com.promount&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src&lt;com.promount" name="com.promount.controller" qualified="false" references="true" stamp="1695636187764" textual="false" version="1.0"/>
+</session>
