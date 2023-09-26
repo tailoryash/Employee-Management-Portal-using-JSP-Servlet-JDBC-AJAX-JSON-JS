@@ -16,7 +16,7 @@
 </div>
 <div class="wrapper">
   <div class="inner-warpper text-center">
-    <form action="validateUser" id="formvalidate" method="post" enctype="multipart/form-data">
+    <form id="formvalidate" action = "validateUser" method = "post" enctype="multipart/form-data">
     <div class="input-group">
         <label class="palceholder" for="fullName">Full Name</label>
         <input class="form-control" name="fullName" id="fullName" type="text" placeholder="" />
@@ -35,7 +35,7 @@
        <div class="input-group">
         <label class="palceholder" for="profile-photo">Profile Photo</label>
         <input class="form-control" name="profile-photo" id="profile-photo" type="file" placeholder="" accept="image/x-png,image/gif,image/jpeg" />
-        <span class="lighting"></span>
+     <span class="lighting"></span>
       </div>
       <div class="input-group">
         <label class="palceholder" for="userName">User Name</label>
@@ -55,7 +55,7 @@
     	<div>
     		<p id="message"></p>
     	</div>
-      <button type="submit" onclick = "checkPassword()" id="login">Submit</button>
+      <button type="submit" onfocus = "checkPassword()" onclick="checkPassword()" id="login">Submit</button>
     </form>
   </div>
   <div class="signup-wrapper text-center">

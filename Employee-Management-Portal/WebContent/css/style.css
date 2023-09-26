@@ -104,6 +104,16 @@ span.validate-tooltip {
   -webkit-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
+
+
+#profile-photo label {
+  background: #fff;
+  font-size: 12px;
+  top: -8px;
+  left: 5px;
+  color: #00A885;
+}
+
 .input-group input {
   outline: none;
   display: block;
@@ -115,10 +125,12 @@ span.validate-tooltip {
   padding: 10px 10px;
   background: #ffffff;
   box-sizing: border-box;
-  font-wieght: 400;
+  font-weight: 400;
   -webkit-transition: 0.3s ease;
   transition: 0.3s ease;
 }
+
+
 .input-group .lighting {
   background: #00A885;
   width: 0;

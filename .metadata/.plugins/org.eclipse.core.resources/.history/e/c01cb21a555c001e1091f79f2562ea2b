@@ -1,0 +1,37 @@
+package com.utils;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+import com.mysql.cj.xdevapi.Statement;
+
+public class TableCreationCRUD {
+	
+	private static final String createTableEmployeeSQL = "create table employees (\r\n" + "  id  int(3) primary key,\r\n" +
+			"  fullName varchar(40),\r\n" + "  email varchar(30),\r\n" + "  phone decimal,\r\n" +
+			"  department_id int(20)\r\n"  +
+			"  profileUrl varchar(100)\r\n" +
+			"  password varchar(20)\r\n" + ");";
+	
+	private static final String createTableDepartmentSQL = "create table department (\r\n" + " id int(3) primary key, \r\n"		
+			+ " department_name varchar(20)\r\n" + ");";
+
+	public void createTable() {
+//		DatabaseConnection DBConnection=new DatabaseConnection();
+//		Connection connection = DBConnection.getConnectionDatabase();
+		
+		
+		try {
+		 
+			Class.forName("com.mysql.jdbc.Driver"); 
+			Connection con= DriverManager.getConnection("jdbc:mysql://localhost:3306/adv-java-practice","root","root"); 
+			PreparedStatement statement1 =  con.createStatement();
+	statement1.execute();		
+			
+		}catch(Exception e){
+			
+		}
+		
+	}
+}

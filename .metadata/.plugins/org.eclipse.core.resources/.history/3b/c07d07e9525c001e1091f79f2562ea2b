@@ -1,0 +1,28 @@
+package com.utils;
+
+import java.sql.Connection;
+
+import com.mysql.cj.xdevapi.Statement;
+
+public class TableCreationCRUD {
+	
+	private static final String createTableEmployeeSQL = "create table employees (\r\n" + "  id  int(3) primary key,\r\n" +
+			"  fullName varchar(40),\r\n" + "  email varchar(30),\r\n" + "  phone decimal,\r\n" +
+			"  department_id int(20)\r\n"  +
+			"  profileUrl varchar(100)\r\n" +
+			"  password varchar(20)\r\n" + ");";
+	
+	private static final String createTableDepartmentSQL = "create table department (\r\n" + " id int(3) primary key, \r\n"		
+			+ " department_name varchar(20)\r\n" + ");";
+
+	public void createTable() {
+		DatabaseConnection DBConnection=new DatabaseConnection();
+		Connection connection = DBConnection.getConnectionDatabase();
+		try {
+		 Statement statement = connection.createStatement();
+		 statement.execute(createTableDepartmentSQL);
+		}catch{}
+		 Statement statement1 = connection.createStatement();
+	     statement1.execute(createTableEmployeeSQL);
+	}
+}

@@ -1,0 +1,12 @@
+package com.utils;
+
+public class TableCreationCRUD {
+	public void createTable() {
+		"  name varchar(20),\r\n" + "  email varchar(20),\r\n" + "  country varchar(20),\r\n" +
+
+				private static final String createTableSQL = "create table users (\r\n" + "  id  int(3) primary key,\r\n" +
+		        "  password varchar(20)\r\n" + "  );";
+		DatabaseConnection connection=new DatabaseConnection();
+		connection.getConnectionDatabase();
+	}
+}

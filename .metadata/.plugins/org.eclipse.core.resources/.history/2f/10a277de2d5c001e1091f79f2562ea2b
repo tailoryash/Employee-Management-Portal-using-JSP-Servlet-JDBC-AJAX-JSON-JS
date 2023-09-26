@@ -1,0 +1,11 @@
+package com.promount.model;
+
+public class Employee {
+	private Integer id;
+	private String fullName;
+	private String tech;
+	private Long phone;
+	private String profilePhotoUrl;
+	private String userName;
+	private String password;
+}

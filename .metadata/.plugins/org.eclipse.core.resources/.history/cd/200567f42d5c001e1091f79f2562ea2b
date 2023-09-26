@@ -1,0 +1,61 @@
+package com.promount.model;
+
+public class Employee {
+	private Integer id;
+	private String fullName;
+	private String tech;
+	private Long phone;
+	private String profilePhotoUrl;
+	private String userName;
+	private String password;
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+	public String getTech() {
+		return tech;
+	}
+	public void setTech(String tech) {
+		this.tech = tech;
+	}
+	public Long getPhone() {
+		return phone;
+	}
+	public void setPhone(Long phone) {
+		this.phone = phone;
+	}
+	public String getProfilePhotoUrl() {
+		return profilePhotoUrl;
+	}
+	public void setProfilePhotoUrl(String profilePhotoUrl) {
+		this.profilePhotoUrl = profilePhotoUrl;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", fullName=" + fullName + ", tech=" + tech + ", phone=" + phone
+				+ ", profilePhotoUrl=" + profilePhotoUrl + ", userName=" + userName + ", password=" + password + "]";
+	}
+	
+	
+	
+}

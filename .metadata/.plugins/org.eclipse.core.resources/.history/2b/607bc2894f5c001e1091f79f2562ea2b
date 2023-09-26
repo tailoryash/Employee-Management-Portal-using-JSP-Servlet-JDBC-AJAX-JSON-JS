@@ -1,0 +1,15 @@
+package com.utils;
+
+public class TableCreationCRUD {
+	
+	private static final String createTableSQL = "create table employees (\r\n" + "  id  int(3) primary key,\r\n" +
+			"  fullName varchar(40),\r\n" + "  email varchar(30),\r\n" + "  phone decimal,\r\n" +
+			"  password varchar(20)\r\n"  +
+			"  password varchar(20)\r\n" +
+			"  password varchar(20)\r\n" + "  );";
+
+	public void createTable() {
+		DatabaseConnection connection=new DatabaseConnection();
+		connection.getConnectionDatabase();
+	}
+}

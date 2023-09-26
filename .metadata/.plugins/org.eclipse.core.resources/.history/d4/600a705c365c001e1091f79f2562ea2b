@@ -1,0 +1,21 @@
+package com.promount.model;
+
+import com.mysql.cj.jdbc.Blob;
+
+public class Employee {	
+	private String fullName;
+	private Long phone;
+	private String tech;
+	private Blob profilePhotoUrl;
+	private String userName;
+	private String password;
+	private String confirmPassword;
+
+	
+	@Override
+	public String toString() {
+		return "Employee [ fullName=" + fullName + ", tech=" + tech + ", phone=" + phone
+				+ ", profilePhotoUrl=" + profilePhotoUrl + ", userName=" + userName + ", password=" + password + "]";
+	}
+		
+}
