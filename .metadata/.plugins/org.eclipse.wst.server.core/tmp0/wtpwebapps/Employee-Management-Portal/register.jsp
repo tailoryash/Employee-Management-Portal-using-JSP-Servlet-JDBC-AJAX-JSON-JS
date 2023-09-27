@@ -11,6 +11,11 @@
 
 </head>
 <body>
+<%
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // http 1.1
+response.setHeader("Pragma", "no-cache"); // http 1.0
+response.setHeader("Expires", "0");
+%>
 <div class="logo text-center">
   <h1>Employee Management Portal</h1>
 </div>
@@ -59,13 +64,14 @@
     </form>
   </div>
   <div class="signup-wrapper text-center">
-    <a href="login.jsp">Already user? <span class="text-primary">Login here</span></a>
-  </div>
+			<a href="login.jsp">Already user? <span class="text-primary">Login
+					here</span></a>
+		</div>
 </div>
 
 <!-- partial -->
   <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js'></script><script  src="js/script.js"></script>
-
+	<script src="js/script.js"></script>
 </body>
 </html>

@@ -3,6 +3,17 @@ package com.promount.model;
 import com.mysql.cj.jdbc.Blob;
 
 public class Employee {	
+	private int id;
+	
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	private String fullName;
 	private Long phone;
 	private String tech;
@@ -21,6 +32,20 @@ public class Employee {
 		this.userName = userName;
 		this.password = password;
 	}
+	
+	
+
+	public Employee(Integer id, String fullName, Long phone, String tech, String profilePhotoUrl, String userName) {
+		super();
+		this.id = id;
+		this.fullName = fullName;
+		this.phone = phone;
+		this.tech = tech;
+		this.profilePhotoUrl = profilePhotoUrl;
+		this.userName = userName;
+	}
+
+
 
 	public String getFullName() {
 		return fullName;

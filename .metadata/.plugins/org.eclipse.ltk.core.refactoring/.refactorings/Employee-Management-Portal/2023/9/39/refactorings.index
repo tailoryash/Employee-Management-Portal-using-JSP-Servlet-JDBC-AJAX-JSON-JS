@@ -1,2 +1,6 @@
 1695636187764	Rename package 'com.promount'
 1695723199836	Delete element
+1695791104527	Delete element
+1695791138747	Rename package 'com.utils'
+1695794546264	Move 'Dashboard.jsp' to 'css'
+1695794559757	Move 'Dashboard.jsp' to 'WebContent'
