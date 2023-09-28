@@ -44,6 +44,17 @@ public class Employee {
 		this.profilePhotoUrl = profilePhotoUrl;
 		this.userName = userName;
 	}
+	
+	public Employee(Integer id, String fullName, Long phone, String tech, String profilePhotoUrl, String userName, String password) {
+		super();
+		this.id = id;
+		this.fullName = fullName;
+		this.phone = phone;
+		this.tech = tech;
+		this.profilePhotoUrl = profilePhotoUrl;
+		this.userName = userName;
+		this.password = password;
+	}
 
 
 

@@ -21,13 +21,18 @@ public class TableCreationCRUD {
 			+ "(fullName, email, phone, department_id, profileUrl, password) VALUES " + " (?, ?, ?, ?, ?, ?);";
 
 	private static final String FIND_BY_ID_DEPT_SQL = "SELECT id FROM department WHERE department_name=?";
-	
+
 	private static final String VALIDATE_USER_SQL = "SELECT * FROM employees WHERE email=? AND password=?";
-	
+
 	private static final String FETCH_USER_SQL = "SELECT e.id, e.fullName, e.email, e.phone, d.department_name, e.profileUrl\r\n"
-			+ "FROM employees e\r\n"
-			+ "INNER JOIN department d ON e.department_id = d.id\r\n"
-			+ "WHERE e.email =?;";
+			+ "FROM employees e\r\n" + "INNER JOIN department d ON e.department_id = d.id\r\n" + "WHERE e.email =?;";
+
+	private static final String FIND_USER_BY_ID_SQL = "SELECT e.id, e.fullName, e.email, e.phone, e.password, d.department_name, e.profileUrl\r\n"
+			+ "FROM employees e\r\n" + "INNER JOIN department d ON e.department_id = d.id\r\n" + "WHERE e.id=?;";
+
+	private static final String UPDATE_DEPARTMENT_SQL = "UPDATE department SET department_name=? WHERE id=?";
+
+	private static final String UPDATE_EMPLOYEE_SQL = "UPDATE employees SET fullName=?, email=?, phone=?, department_id=?, profileUrl=?, password=? WHERE id=?";
 
 	protected Connection getConnection() {
 		Connection connection = null;
@@ -125,9 +130,9 @@ public class TableCreationCRUD {
 			PreparedStatement validateUserStatement = connection.prepareStatement(VALIDATE_USER_SQL);
 			validateUserStatement.setString(1, loginId);
 			validateUserStatement.setString(2, loginPassword);
-			
+
 			ResultSet fetchedUser = validateUserStatement.executeQuery();
-			if(fetchedUser.next()) {
+			if (fetchedUser.next()) {
 				return true;
 			}
 		} catch (SQLException e) {
@@ -135,15 +140,15 @@ public class TableCreationCRUD {
 		}
 		return false;
 	}
-	
+
 	public Employee fetchedAllData(String loginId) {
 		try (Connection connection = getConnection()) {
 			PreparedStatement validateUserStatement = connection.prepareStatement(FETCH_USER_SQL);
 			validateUserStatement.setString(1, loginId);
-			
+
 			ResultSet fetchedUser = validateUserStatement.executeQuery();
-			if(fetchedUser.next()) {
-				Integer empId = (Integer)fetchedUser.getInt(1);
+			if (fetchedUser.next()) {
+				Integer empId = (Integer) fetchedUser.getInt(1);
 				String fullName = fetchedUser.getString(2);
 				Long phoneNo = fetchedUser.getLong(4);
 				String deptName = fetchedUser.getString(5);
@@ -155,5 +160,68 @@ public class TableCreationCRUD {
 			printSQLException(e);
 		}
 		return null;
+	}
+
+	public Employee findEmployeeById(int id) {
+		try (Connection connection = getConnection()) {
+			PreparedStatement existUserOrNot = connection.prepareStatement(FIND_USER_BY_ID_SQL);
+			existUserOrNot.setInt(1, id);
+
+			ResultSet fetchedUser = existUserOrNot.executeQuery();
+			if (fetchedUser.next()) {
+				Integer empId = (Integer) fetchedUser.getInt(1);
+				String fullName = fetchedUser.getString(2);
+				String email = fetchedUser.getString(3);
+				Long phoneNo = fetchedUser.getLong(4);
+				String password = fetchedUser.getString(5);
+				String deptName = fetchedUser.getString(5);
+				String profileUrl = fetchedUser.getString(6);
+				Employee empData = new Employee(empId, fullName, phoneNo, deptName, profileUrl, email, password);
+				return empData;
+			}
+		} catch (SQLException e) {
+			printSQLException(e);
+			
+		}
+		return null;
+	}
+
+	public void update(Employee existEmp) {
+		ResultSet rs;
+		int deptId;
+		try (Connection connection = getConnection()) {
+			PreparedStatement findDeptIdStatement = connection.prepareStatement(FIND_BY_ID_DEPT_SQL);
+			PreparedStatement updateDeptStatement = connection.prepareStatement(UPDATE_DEPARTMENT_SQL);
+			PreparedStatement updateEmpStatement = connection.prepareStatement(UPDATE_EMPLOYEE_SQL);
+
+			findDeptIdStatement.setString(1, existEmp.getTech().toLowerCase());
+			rs = findDeptIdStatement.executeQuery();
+			
+			if (!rs.next()) {
+				PreparedStatement insertDepartmentStatement = connection.prepareStatement(INSERT_DEPARTMENT_SQL);
+
+				insertDepartmentStatement.setString(1, existEmp.getTech());
+				insertDepartmentStatement.executeUpdate();
+			}
+			
+			rs = findDeptIdStatement.executeQuery();
+			
+			updateEmpStatement.setString(1, existEmp.getFullName());
+			updateEmpStatement.setString(2, existEmp.getUserName());
+			updateEmpStatement.setLong(3, existEmp.getPhone());
+
+			if (rs.next()) {
+				deptId = rs.getInt("id");
+				updateEmpStatement.setInt(4, deptId);
+			}
+
+			updateEmpStatement.setString(5, existEmp.getProfilePhotoUrl());
+			updateEmpStatement.setString(6, existEmp.getPassword());
+			updateEmpStatement.setInt(7, existEmp.getId());
+			updateEmpStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
 	}
 }

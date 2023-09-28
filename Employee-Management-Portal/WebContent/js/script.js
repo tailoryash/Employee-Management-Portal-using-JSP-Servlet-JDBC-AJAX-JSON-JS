@@ -146,7 +146,7 @@ function editEmployeeDetails(id) {
 		});*/
 
 
-	var xhr = new XMLHttpRequest();
+	/*var xhr = new XMLHttpRequest();
 	// xhr.responseType = "json";
 	xhr.open("GET", "http://localhost:8080/Employee-Management-Portal/register.jsp?id="+);
 	var employee = JSON.parse(xhr.response);
@@ -160,5 +160,6 @@ function editEmployeeDetails(id) {
 		}
 	};
 
-	xhr.send();
+	xhr.send();*/
+	
 }

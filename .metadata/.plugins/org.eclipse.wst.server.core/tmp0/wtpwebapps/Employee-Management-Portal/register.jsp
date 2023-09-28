@@ -15,6 +15,10 @@
 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // http 1.1
 response.setHeader("Pragma", "no-cache"); // http 1.0
 response.setHeader("Expires", "0");
+
+if(session.getAttribute("empId") != null){
+	
+}
 %>
 <div class="logo text-center">
   <h1>Employee Management Portal</h1>
@@ -73,5 +77,29 @@ response.setHeader("Expires", "0");
   <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js'></script><script  src="js/script.js"></script>
 	<script src="js/script.js"></script>
+	<script>
+	
+	
+	var id = <%=(Integer)session.getAttribute("empId")%>;
+	window.onload = function(){
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", "fetchUser");
+		var employee = JSON.parse(xhr.response);
+		console.log("Employee json : " + employee);
+		xhr.onreadystatechange = function(){
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				// Set the employee data to the input tag
+				document.getElementById("fullName").value = employee.fullName;
+				document.getElementById("phone").value = employee.phone;
+				document.getElementById("tech").value = employee.tech;
+			}
+		};
+	}
+	
+	if(<%=(Integer)session.getAttribute("empId")%> != null){
+		document.getElementById("formvalidate").action = "updateUser";v
+	}
+	
+	</script>
 </body>
 </html>

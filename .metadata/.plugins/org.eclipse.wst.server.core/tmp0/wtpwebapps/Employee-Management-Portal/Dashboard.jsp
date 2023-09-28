@@ -19,8 +19,8 @@
 	if (session.getAttribute("loginId") == null) {
 		response.sendRedirect("login.jsp");
 	}
-	
-	int id = Integer.parseInt(session.getAttribute("empId"));
+
+	Integer id = (Integer)session.getAttribute("empId");
 	%>
 	DashBoard
 
@@ -30,8 +30,8 @@
 		<p class="title"></p>
 		<p>Promount Technologies LLP</p>
 		<p>
-			<a href="fetchUser" onclick="editEmployeeDetails()">
-				<button type = "submit">Update Profile</button>
+			<a href="fetchUser?id=<%=(Integer)session.getAttribute("empId")%>" id="fetchUser" onclick="fetchUser(<%=(Integer)session.getAttribute("empId")%>)">
+				<button type="submit">Update Profile</button>
 			</a>
 		</p>
 		<p>
@@ -45,8 +45,12 @@
 
 	<script>
 
-		var fullName = '<%=(String) session.getAttribute("loginId")%>';
-		document.getElementById("user-name").innerText = fullName;
+		var email = '<%=(String) session.getAttribute("loginId")%>';
+		document.getElementById("user-name").innerText = email;
+		
+		function fetchUser(id){
+			window.location.href = 'http://localhost:8080/Employee-Management-Portal/register.jsp';
+		}
 	</script>
 
 </body>

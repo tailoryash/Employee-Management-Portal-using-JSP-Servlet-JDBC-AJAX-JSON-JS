@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 import com.promount.dao.TableCreationCRUD;
 import com.promount.model.Employee;
 
-@WebServlet(urlPatterns = { "/validateUser", "/loginUser", "/fetchUser", "/logout" })
+@WebServlet(urlPatterns = { "/validateUser", "/loginUser", "/fetchUser", "/logout", "/updateUser" })
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
 		maxFileSize = 1024 * 1024 * 10, // 10 MB
 		maxRequestSize = 1024 * 1024 * 100 // 100 MB
@@ -64,6 +64,7 @@ public class LoginServlet extends HttpServlet {
 		if ("/validateUser".equalsIgnoreCase(servletPath)) {
 
 			// fetching all information from request
+
 			String fullName = request.getParameter("fullName").trim();
 			Long phoneNo = Long.parseLong(request.getParameter("phone"));
 			String techStack = request.getParameter("tech").trim();
@@ -80,7 +81,7 @@ public class LoginServlet extends HttpServlet {
 			if (!password.equals(confirmPassword)) {
 				response.sendRedirect("register.jsp");
 			} else {
-				System.out.println(filePart);
+//				System.out.println(filePart);
 
 				for (Part part : request.getParts()) {
 					part.write(uploadPath);
@@ -105,16 +106,76 @@ public class LoginServlet extends HttpServlet {
 				forwardReq.forward(request, response);
 			}
 
+		} else if ("/updateUser".equalsIgnoreCase(servletPath)) {
+			System.out.println("you are in updateUser method to call");
+			updateUser(request, response);
 		} else {
 			loginValidate(request, response);
 		}
 
-		/*
-		 * if (request.getParameter("login-id").trim().toLowerCase() != null) {
-		 * loginValidate(request, response); }
-		 */
-
 	}
+
+	private void updateUser(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String servletPath = request.getServletPath();
+		if ("/updateUser".equalsIgnoreCase(servletPath)) {
+			TableCreationCRUD creationCRUD = new TableCreationCRUD();
+			System.out.println("you are in updateUser method");
+			int id = Integer.parseInt(request.getParameter("id"));
+			System.out.println("Id is: " + id);
+			Employee existEmp = creationCRUD.findEmployeeById(id);
+			System.out.println("Updated Employee is : " + existEmp);
+
+			String fullName = request.getParameter("fullName").trim();
+			Long phoneNo = Long.parseLong(request.getParameter("phone"));
+			String techStack = request.getParameter("tech").trim();
+			String email = request.getParameter("userName").trim();
+			String password = request.getParameter("userPassword").trim();
+			String confirmPassword = request.getParameter("confirmUserPassword").trim();
+
+			// fetching file information
+			Part filePart = request.getPart("profile-photo");
+			String fileName = filePart.getSubmittedFileName();
+			String uploadPath = "C:\\uploads\\" + fileName;
+
+			// checking if both passwords matches or not
+			if (!password.equals(confirmPassword)) {
+				response.sendRedirect("register.jsp?id=" + id);
+			} else {
+//				System.out.println(filePart);
+
+				for (Part part : request.getParts()) {
+					part.write(uploadPath);
+				}
+
+				System.out.println("New Data : " + fullName + "," + phoneNo + "," + fileName + "," + email + ","
+						+ password + "," + confirmPassword);
+
+				// insert data into table
+//				Employee empObj = new Employee(fullName, phoneNo, techStack, uploadPath, email, password);
+				existEmp.setId(id);
+				existEmp.setFullName(fullName);
+				existEmp.setTech(techStack);
+				existEmp.setPhone(phoneNo);
+				existEmp.setProfilePhotoUrl(uploadPath);
+				existEmp.setUserName(email);
+				existEmp.setPassword(confirmPassword);
+				creationCRUD.update(existEmp);
+
+				HttpSession session = request.getSession();
+				session.setAttribute("fullName", fullName);
+
+				// forwarding request to login.jsp
+				RequestDispatcher forwardReq = request.getRequestDispatcher("login.jsp");
+				forwardReq.forward(request, response);
+			}
+		}
+	}
+
+	/*
+	 * if (request.getParameter("login-id").trim().toLowerCase() != null) {
+	 * loginValidate(request, response); }
+	 */
 
 	private void loginValidate(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -132,51 +193,79 @@ public class LoginServlet extends HttpServlet {
 			 * forwardReq.forward(request, response);
 			 */
 
-			response.sendRedirect("Dashboard.jsp");
+			String email = (String) session.getAttribute("loginId");
+			Employee fetchedUserDetailsObject = creationCRUD.fetchedAllData(email);
+			int id = fetchedUserDetailsObject.getId();
+//			System.out.println(id);
+
+			session.setAttribute("empId", id);
+			/*
+			 * String jsonString = new Gson().toJson(fetchedUserDetailsObject);
+			 * System.out.println(jsonString); response.setContentType("application/json");
+			 * response.getWriter().write(jsonString);
+			 */
+
+//			jsonCreate(fetchedUserDetailsObject);
+
+			response.sendRedirect("Dashboard.jsp?id=" + id);
 		} else {
 			response.sendRedirect("login.jsp");
 		}
 
 	}
 
+	public HttpServletResponse jsonCreate(Employee empData, HttpServletResponse resp) throws IOException {
+		String jsonString = new Gson().toJson(empData);
+		System.out.println("JSON in jsonCreate method:"+jsonString);
+		resp.setContentType("application/json");
+		resp.getWriter().write(jsonString);
+		return resp;
+	}
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String servletPath = req.getServletPath();
-		if ("/fetchUser".equalsIgnoreCase(servletPath)) {
-			TableCreationCRUD creationCRUD = new TableCreationCRUD();
 
-			HttpSession session = req.getSession();
-			String email = (String) session.getAttribute("loginId");
-			Employee fetchedUserDetailsObject = creationCRUD.fetchedAllData(email);
-			int id = fetchedUserDetailsObject.getId();
-			System.out.println(id);
-			session.setAttribute("empId", id);
+		if ("/fetchUser".equalsIgnoreCase(servletPath)) {
+			int id = Integer.parseInt(req.getParameter("id"));
+			System.out.println("Get method Id is: " + id);
+			/*
+			 * TableCreationCRUD creationCRUD = new TableCreationCRUD();
+			 * 
+			 * session.getAttribute("loginId"); Employee fetchedUserDetailsObject =
+			 * creationCRUD.fetchedAllData(email); int id =
+			 * fetchedUserDetailsObject.getId(); System.out.println(id);
+			 * session.setAttribute("empId", id);
+			 */
 
 //			ObjectMapper mapper = new ObjectMapper();
 //			resp.setContentType("application/json");
 //			mapper.writeValue(resp.getOutputStream(), fetchedUserDetailsObject);
 
-			String jsonString = new Gson().toJson(fetchedUserDetailsObject);
-			System.out.println(jsonString);
-			resp.setContentType("application/json");
-			resp.getWriter().write(jsonString);
-
+			HttpSession session = req.getSession();
 			if (session.getAttribute("loginId") != null) {
-				RequestDispatcher forwardReq = req.getRequestDispatcher("register.jsp?id="+id);
+				TableCreationCRUD creationCRUD = new TableCreationCRUD();
+				String email = (String) session.getAttribute("loginId");
+				Employee fetchedUserDetailsObject = creationCRUD.fetchedAllData(email);
+				
+				resp = jsonCreate(fetchedUserDetailsObject, resp);
+				System.out.println("Valued json fetched");
+				RequestDispatcher forwardReq = req
+						.getRequestDispatcher("register.jsp?id=" + (Integer) session.getAttribute("empId"));
 				forwardReq.forward(req, resp);
+				System.out.println("hello you are in fetchUser url");
 			} else {
 				resp.sendRedirect("login.jsp");
 			}
-
 		}
 
-		if ("/logout".equalsIgnoreCase(servletPath)) {
+		else if ("/logout".equalsIgnoreCase(servletPath)) {
 			HttpSession session = req.getSession();
 			session.removeAttribute("loginId");
 			session.invalidate();
 			resp.sendRedirect("login.jsp");
 		}
-
+		
+		
 	}
-
 }
