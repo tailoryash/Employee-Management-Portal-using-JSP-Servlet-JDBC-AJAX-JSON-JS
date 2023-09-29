@@ -65,8 +65,6 @@ public class TableCreationCRUD {
 			departmentSQL.execute();
 			employeeSQL.execute();
 
-			// connection.prepareStatement(createTableDepartmentSQL);
-			// connection.prepareStatement(createTableEmployeeSQL);
 		} catch (SQLException e) {
 			printSQLException(e);
 		}

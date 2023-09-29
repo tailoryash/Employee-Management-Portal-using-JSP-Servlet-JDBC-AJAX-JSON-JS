@@ -8,6 +8,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/profilecss.css">
+  <link rel="icon" type="image/x-icon" href="images/favicon/profile.png">
 <script src="js/script.js"></script>
 </head>
 <body>
@@ -22,35 +23,33 @@
 
 	Integer id = (Integer)session.getAttribute("empId");
 	%>
-	DashBoard
 
 	<div class="card">
-		<img src="#" alt="User Profile Photo" style="width: 100%">
+		<img src="images/profile-photo.png" alt="User Profile Photo" style="width: 300px; height: 300px">
 		<h1 id="user-name"></h1>
 		<p class="title"></p>
 		<p>Promount Technologies LLP</p>
 		<p>
-			<a href="fetchUser?id=<%=(Integer)session.getAttribute("empId")%>" id="fetchUser" onclick="fetchUser(<%=(Integer)session.getAttribute("empId")%>)">
+			<a href="register.jsp?id=<%=(Integer)session.getAttribute("empId")%>" id="fetchUser" onclick="fetchUser(<%=(Integer)session.getAttribute("empId")%>)">
 				<button type="submit">Update Profile</button>
 			</a>
 		</p>
 		<p>
-			<a href="attachments.jsp"><button>Attachments</button></a>
+			<a href="attachments.jsp?id=<%=(Integer)session.getAttribute("empId")%>"><button>Attachments</button></a>
 		</p>
 		<p>
 			<a href="logout"><button>Log out</button></a>
 		</p>
 	</div>
 
-
 	<script>
-
 		var email = '<%=(String) session.getAttribute("loginId")%>';
 		document.getElementById("user-name").innerText = email;
 		
-		function fetchUser(id){
-			window.location.href = 'http://localhost:8080/Employee-Management-Portal/register.jsp';
-		}
+		window.history.pushState(null, null, window.location.href);
+		window.onpopstate = function () {
+		    window.history.pushState(null, null, window.location.href);
+		};
 	</script>
 
 </body>

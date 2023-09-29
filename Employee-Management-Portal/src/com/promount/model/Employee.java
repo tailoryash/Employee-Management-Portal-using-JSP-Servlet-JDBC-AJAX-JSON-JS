@@ -56,8 +56,6 @@ public class Employee {
 		this.password = password;
 	}
 
-
-
 	public String getFullName() {
 		return fullName;
 	}
@@ -106,18 +104,19 @@ public class Employee {
 		this.password = password;
 	}
 
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", fullName=" + fullName + ", phone=" + phone + ", tech=" + tech
+				+ ", profilePhotoUrl=" + profilePhotoUrl + ", userName=" + userName + ", password=" + password + "]";
+	}
+
+
 	public String getConfirmPassword() {
 		return confirmPassword;
 	}
 
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
-	}
-
-	@Override
-	public String toString() {
-		return "Employee [ fullName=" + fullName + ", tech=" + tech + ", phone=" + phone
-				+ ", profilePhotoUrl=" + profilePhotoUrl + ", userName=" + userName + ", password=" + password + "]";
 	}
 		
 }

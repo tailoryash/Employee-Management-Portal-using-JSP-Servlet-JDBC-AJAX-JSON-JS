@@ -1,6 +1,7 @@
 package com.promount.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,40 +25,9 @@ import com.promount.model.Employee;
 )
 public class LoginServlet extends HttpServlet {
 
-//	private Gson gson = new Gson();
-
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		/*
-		 * ServletFileUpload sf = new ServletFileUpload(new DiskFileItemFactory());
-		 * List<FileItem> files = null; try { files = sf.parseRequest(request); } catch
-		 * (FileUploadException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); } for(FileItem file : files) { // file.getInputStream();
-		 * System.out.println(file.getInputStream()); }
-		 */
-		/*
-		 *
-		 * Part filePart = request.getPart("profile-photo"); String fileName =
-		 * filePart.getSubmittedFileName(); System.out.println(fullName);
-		 * System.out.println(phoneNo); System.out.println(techStack);
-		 * System.out.println(email); System.out.println(password);
-		 * System.out.println(confirmPassword);
-		 */
-
-		/*
-		 * BufferedReader reader = request.getReader(); Employee employee =
-		 * gson.fromJson(reader, Employee.class);
-		 */
-
-		/*
-		 * Part filePart = request.getPart("profile-photo"); String fileName =
-		 * Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); String
-		 * uploadPath = "uploads" + File.separator + fileName;
-		 * filePart.write(uploadPath); String imageUrl = "/uploads/" + fileName;
-		 * response.getWriter().write(imageUrl); System.out.println(imageUrl);
-		 */
 
 		String servletPath = request.getServletPath();
 
@@ -81,7 +51,6 @@ public class LoginServlet extends HttpServlet {
 			if (!password.equals(confirmPassword)) {
 				response.sendRedirect("register.jsp");
 			} else {
-//				System.out.println(filePart);
 
 				for (Part part : request.getParts()) {
 					part.write(uploadPath);
@@ -142,7 +111,6 @@ public class LoginServlet extends HttpServlet {
 			if (!password.equals(confirmPassword)) {
 				response.sendRedirect("register.jsp?id=" + id);
 			} else {
-//				System.out.println(filePart);
 
 				for (Part part : request.getParts()) {
 					part.write(uploadPath);
@@ -151,8 +119,6 @@ public class LoginServlet extends HttpServlet {
 				System.out.println("New Data : " + fullName + "," + phoneNo + "," + fileName + "," + email + ","
 						+ password + "," + confirmPassword);
 
-				// insert data into table
-//				Employee empObj = new Employee(fullName, phoneNo, techStack, uploadPath, email, password);
 				existEmp.setId(id);
 				existEmp.setFullName(fullName);
 				existEmp.setTech(techStack);
@@ -172,40 +138,24 @@ public class LoginServlet extends HttpServlet {
 		}
 	}
 
-	/*
-	 * if (request.getParameter("login-id").trim().toLowerCase() != null) {
-	 * loginValidate(request, response); }
-	 */
-
 	private void loginValidate(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String loginId = request.getParameter("login-id").trim().toLowerCase();
-		String loginPassword = request.getParameter("login-password");
+		String loginId = request.getParameter("userName").trim().toLowerCase();
+		String loginPassword = request.getParameter("user-Password");
 
 		TableCreationCRUD creationCRUD = new TableCreationCRUD();
 		boolean flag = creationCRUD.validateCredentials(loginId, loginPassword);
 		if (flag) {
 			HttpSession session = request.getSession();
 			session.setAttribute("loginId", loginId);
-			session.setAttribute("loginPassword", loginPassword);
-			/*
-			 * RequestDispatcher forwardReq = request.getRequestDispatcher("Dashboard.jsp");
-			 * forwardReq.forward(request, response);
-			 */
+//			session.setAttribute("loginPassword", loginPassword);
 
-			String email = (String) session.getAttribute("loginId");
-			Employee fetchedUserDetailsObject = creationCRUD.fetchedAllData(email);
+
+//			String email = (String) session.getAttribute("loginId");
+			Employee fetchedUserDetailsObject = creationCRUD.fetchedAllData(loginId);
 			int id = fetchedUserDetailsObject.getId();
-//			System.out.println(id);
 
 			session.setAttribute("empId", id);
-			/*
-			 * String jsonString = new Gson().toJson(fetchedUserDetailsObject);
-			 * System.out.println(jsonString); response.setContentType("application/json");
-			 * response.getWriter().write(jsonString);
-			 */
-
-//			jsonCreate(fetchedUserDetailsObject);
 
 			response.sendRedirect("Dashboard.jsp?id=" + id);
 		} else {
@@ -229,18 +179,7 @@ public class LoginServlet extends HttpServlet {
 		if ("/fetchUser".equalsIgnoreCase(servletPath)) {
 			int id = Integer.parseInt(req.getParameter("id"));
 			System.out.println("Get method Id is: " + id);
-			/*
-			 * TableCreationCRUD creationCRUD = new TableCreationCRUD();
-			 * 
-			 * session.getAttribute("loginId"); Employee fetchedUserDetailsObject =
-			 * creationCRUD.fetchedAllData(email); int id =
-			 * fetchedUserDetailsObject.getId(); System.out.println(id);
-			 * session.setAttribute("empId", id);
-			 */
-
-//			ObjectMapper mapper = new ObjectMapper();
-//			resp.setContentType("application/json");
-//			mapper.writeValue(resp.getOutputStream(), fetchedUserDetailsObject);
+		
 
 			HttpSession session = req.getSession();
 			if (session.getAttribute("loginId") != null) {
@@ -250,10 +189,6 @@ public class LoginServlet extends HttpServlet {
 				
 				resp = jsonCreate(fetchedUserDetailsObject, resp);
 				System.out.println("Valued json fetched");
-				RequestDispatcher forwardReq = req
-						.getRequestDispatcher("register.jsp?id=" + (Integer) session.getAttribute("empId"));
-				forwardReq.forward(req, resp);
-				System.out.println("hello you are in fetchUser url");
 			} else {
 				resp.sendRedirect("login.jsp");
 			}
@@ -264,8 +199,6 @@ public class LoginServlet extends HttpServlet {
 			session.removeAttribute("loginId");
 			session.invalidate();
 			resp.sendRedirect("login.jsp");
-		}
-		
-		
+		}				
 	}
 }
