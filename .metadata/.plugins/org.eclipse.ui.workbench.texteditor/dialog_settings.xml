@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="/*const form = document.getElementById(&apos;formvalidate&apos;);"/>
+		<item key="selection" value="&#x09;&lt;script src=&quot;js/script.js&quot;&gt;&lt;/script&gt;"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="/*const form = document.getElementById(&apos;formvalidate&apos;);"/>
+			<item value="Please enter at least 6 characters."/>
+			<item value="Please enter at least 6 characters"/>
+			<item value="loginUser"/>
+			<item value="message`````"/>
 			<item value="message"/>
-			<item value="script.js"/>
-			<item value="forgot"/>
-			<item value="forget"/>
+			<item value="messgae"/>
+			<item value="tooltip"/>
+			<item value="formvalidate"/>
+			<item value="palceholder"/>
+			<item value="lighting"/>
+			<item value="Please provide valid username."/>
+			<item value=".input-group"/>
+			<item value="label"/>
+			<item value="fetchUser"/>
+			<item value="qawszx"/>
 		</list>
 		<list key="replacehistory">
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="587"/>
-		<item key="DIALOG_Y_ORIGIN" value="261"/>
+		<item key="DIALOG_X_ORIGIN" value="777"/>
+		<item key="DIALOG_Y_ORIGIN" value="235"/>
 		<item key="DIALOG_WIDTH" value="322"/>
 		<item key="DIALOG_HEIGHT" value="391"/>
 		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>

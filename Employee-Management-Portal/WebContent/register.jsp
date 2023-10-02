@@ -67,7 +67,7 @@ response.setHeader("Expires", "0");
       </div>
        <div class="input-group">
         <label class="palceholder" for="profile-photo">Profile Photo</label>
-        <input class="form-control" name="profile-photo" id="profile-photo" type="file" placeholder="" accept="image/x-png,image/gif,image/jpeg" />
+        <input class="form-control" name="profile-photo" id="profile-photo" type="file" placeholder="" accept="application/pdf, image/x-png,image/gif,image/jpeg" />
      <span class="lighting"></span>
       </div>
       <div class="input-group">
@@ -88,7 +88,7 @@ response.setHeader("Expires", "0");
     	<div>
     		<p id="message"></p>
     	</div>
-      <button type="submit" onfocus = "checkPassword()" onclick="checkPassword()" id="login">Submit</button>
+      <button type="submit" onfocus = "checkPassword()" onclick="fetchDataFromFormToJson()" id="login">Submit</button>
     </form>
   </div>
   <div class="signup-wrapper text-center">
@@ -100,7 +100,7 @@ response.setHeader("Expires", "0");
 <!-- partial -->
   <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js'></script><script  src="js/script.js"></script>
-	
+		
 	<script>
 	var id = <%=(Integer)session.getAttribute("empId")%>;
 	if(<%=(Integer)session.getAttribute("empId")%> != null){

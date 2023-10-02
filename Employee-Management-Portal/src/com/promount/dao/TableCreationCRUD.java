@@ -57,11 +57,15 @@ public class TableCreationCRUD {
 	private static final String createTableDepartmentSQL = "create table department (\r\n"
 			+ " id int(3) not null auto_increment primary key, \r\n" + " department_name varchar(20)\r\n" + ");";
 
+	private static final String createTableAttachmentsSQL = "create table attachments (id int not null auto_increment primary key, employee_id int, attachment_url varchar(100), attachment_type varchar(20), FOREIGN KEY(employee_id) REFERENCES employees(id))";
+
 	public void createTable() {
 		try (Connection connection = getConnection()) {
 			PreparedStatement departmentSQL = connection.prepareStatement(createTableDepartmentSQL);
 			PreparedStatement employeeSQL = connection.prepareStatement(createTableEmployeeSQL);
+			PreparedStatement attachmentsSQL = connection.prepareStatement(createTableAttachmentsSQL);
 
+			attachmentsSQL.execute();
 			departmentSQL.execute();
 			employeeSQL.execute();
 
@@ -179,7 +183,7 @@ public class TableCreationCRUD {
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
-			
+
 		}
 		return null;
 	}
@@ -194,16 +198,16 @@ public class TableCreationCRUD {
 
 			findDeptIdStatement.setString(1, existEmp.getTech().toLowerCase());
 			rs = findDeptIdStatement.executeQuery();
-			
+
 			if (!rs.next()) {
 				PreparedStatement insertDepartmentStatement = connection.prepareStatement(INSERT_DEPARTMENT_SQL);
 
 				insertDepartmentStatement.setString(1, existEmp.getTech());
 				insertDepartmentStatement.executeUpdate();
 			}
-			
+
 			rs = findDeptIdStatement.executeQuery();
-			
+
 			updateEmpStatement.setString(1, existEmp.getFullName());
 			updateEmpStatement.setString(2, existEmp.getUserName());
 			updateEmpStatement.setLong(3, existEmp.getPhone());
@@ -217,7 +221,7 @@ public class TableCreationCRUD {
 			updateEmpStatement.setString(6, existEmp.getPassword());
 			updateEmpStatement.setInt(7, existEmp.getId());
 			updateEmpStatement.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		}

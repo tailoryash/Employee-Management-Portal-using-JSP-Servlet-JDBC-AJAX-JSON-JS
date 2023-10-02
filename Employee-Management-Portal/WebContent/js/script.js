@@ -121,7 +121,6 @@ function checkPassword() {
 		if (password == cnfrmPassword) {
 			message.innerText = "password matched";
 			message.style.backgroundColor = "#1dcd59";
-			fetchDataFromFormToJson();
 		}
 		else {
 			message.innerText = "Sorry, Password match doesn't matching";
@@ -134,15 +133,34 @@ function checkPassword() {
 }
 
 
-async function fetchDataFromFormToJson() {
+function fetchDataFromFormToJson() {
 
-	var formData = new FormData($("#formvalidate"));
+	/*var formData = new FormData($("#formvalidate"));
 	formData.append("profile-photo", profile - photo.files[0]);
 
 	await fetch('validateUser', {
 		method: "POST",
 		body: formData,
 		success: document.forms["formvalidate"].reset(),
-	}).status
+	}).status*/
+	 var formData = new FormData();	
+	 var fileInput = document.getElementById("profile-photo");
+	 
+	 if (fileInput.files.length > 0) {
+        formData.append("profile-photo", fileInput.files[0]);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "validateUser", true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                alert("File uploaded successfully.");
+            }
+        };
+
+        xhr.send(formData);
+    } else {
+        alert("Please select a file to upload.");
+    }
 
 }

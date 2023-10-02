@@ -4,16 +4,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Login Page</title>
+<title>Login</title>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <link rel="stylesheet" href="css/style.css">
-
+  <link rel="icon" type="image/x-icon" href="images/favicon/login.png">
 </head>
 <body>
-	<%
-
-	
+	<%	
 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // http 1.1
 	response.setHeader("Pragma", "no-cache"); // http 1.0
 	response.setHeader("Expires", "0");
@@ -27,12 +25,12 @@
 			<form action="loginUser" id="formvalidate" method="post">
 				<div class="input-group">
 					<label class="palceholder" for="userName">User Name</label> <input
-						class="form-control" name="login-id" id="userName" type="text"
+						class="form-control" name="userName" id="userName" type="text"
 						placeholder="" /> <span class="lighting"></span>
 				</div>
 				<div class="input-group">
 					<label class="palceholder" for="userPassword">Password</label> <input
-						class="form-control" name="login-password" id="userPassword"
+						class="form-control" name="user-Password" id="userPassword"
 						type="password" placeholder="" /> <span class="lighting"></span>
 				</div>
 
@@ -42,7 +40,6 @@
 						<input id="rememberMe" type="checkbox"> <label
 							for="rememberMe">Remember Me</label>
 					</div>
-					<!-- <a class="forgot pull-right" href="#">Forgot Password?</a> -->
 				</div>
 			</form>
 		</div>
@@ -52,11 +49,16 @@
 		</div>
 	</div>
 
-	<!-- partial -->
 	<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
 	<script
 		src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js'></script>
 	<script src="js/script.js"></script>
 
+  <script>
+  window.history.pushState(null, null, window.location.href);
+  window.onpopstate = function () {
+      window.history.pushState(null, null, window.location.href);
+  };
+  </script>
 </body>
 </html>

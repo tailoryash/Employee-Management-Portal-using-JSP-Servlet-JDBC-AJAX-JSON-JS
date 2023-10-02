@@ -1,0 +1,37 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Attachments</title>
+<link rel="icon" type="image/x-icon" href="images/favicon/file-logo.png">
+<link rel="stylesheet" href="css/attachment-css.css">
+</head>
+<body>
+
+	<%
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // http 1.1
+	response.setHeader("Pragma", "no-cache"); // http 1.0
+	response.setHeader("Expires", "0"); // proxies
+
+	if (session.getAttribute("loginId") == null) {
+		response.sendRedirect("login.jsp");
+	}
+
+	Integer id = (Integer) session.getAttribute("empId");
+	%>
+	<div class="container">
+		<a href="Dashboard.jsp"><button id="homeButton">Home</button></a> <br> <br> 
+		<h1>File Upload and Management</h1>
+		<input
+			type="file" id="fileInput"
+			accept=".pdf, .xls, .xlsx, .jpg, .jpeg, .png, .gif"> <br>
+		<a href = "uploadFiles"><button id="uploadButton">Upload File</button></a>
+		<br> <br>
+		<ul class="file-list" id="fileList">
+			<!-- Uploaded files will be listed here -->
+		</ul>
+	</div>
+</body>
+</html>

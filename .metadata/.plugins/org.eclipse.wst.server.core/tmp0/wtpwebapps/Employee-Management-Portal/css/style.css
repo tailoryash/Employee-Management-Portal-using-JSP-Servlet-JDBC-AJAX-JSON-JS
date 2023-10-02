@@ -79,6 +79,15 @@ input[type="checkbox"] {
 	width: auto;
 }
 
+.input-group label {
+	position: absolute;
+	background: #fff;
+	font-size: 12px;
+	top: -8px;
+	left: 5px;
+	color: #00A885;
+	z-index: 5;
+}
 button {
 	cursor: pointer;
 	background: #00A885;
@@ -111,7 +120,7 @@ span.validate-tooltip {
 	margin-bottom: 20px;
 }
 
-.input-group label {
+/*.input-group label {
 	position: absolute;
 	top: 9px;
 	left: 10px;
@@ -122,7 +131,7 @@ span.validate-tooltip {
 	z-index: 5;
 	-webkit-transition: all 0.3s linear;
 	transition: all 0.3s linear;
-}
+}*/
 
 
 #profile-photo label {
@@ -164,14 +173,6 @@ span.validate-tooltip {
 
 .input-group.focused .lighting {
 	width: 100%;
-}
-
-.input-group.focused label {
-	background: #fff;
-	font-size: 12px;
-	top: -8px;
-	left: 5px;
-	color: #00A885;
 }
 
 .input-group span.validate-tooltip {

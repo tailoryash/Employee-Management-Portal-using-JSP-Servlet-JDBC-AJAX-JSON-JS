@@ -22,30 +22,96 @@
 
 	$("#formvalidate").validate({
 		rules: {
+			fullName: {
+				required: true,
+				minlength: 6,
+				validFullName: true
+			},
+			phone:{
+				required: true,
+				minlength: 10,
+				maxlength:10
+			},
+			tech:{
+				required: true,
+				minlength: 2,
+				onlyLetters: true
+			},
 			userName: {
 				required: true,
-				minlength: 6
+				minlength: 6,
+				email: true
 			},
 			userPassword: {
 				required: true,
-				minlength: 6
+				minlength: 6,
+				validPassword: true
+			},
+			
+			confirmUserPassword: {
+				required: true,
+				confirmPassword: true
 			}
 		},
 		messages: {
+			fullName: {
+				required: "Please enter your full name.",
+				minlength: "Please provide valid full name.",
+				validFullName: "Only letters [a-z and A-Z] are valid"
+			},
+			phone: {
+				required: "Please enter your phone.",
+				minlength: "Please provide valid phone [10 digits]."
+			},
+			tech: {
+				required: "Please enter your tech stack.",
+				minlength: "Please provide valid tech stack.",
+				onlyLetters: "Only letters [a-z and A-Z] are valid"
+			},
 			userName: {
 				required: "Please enter your username.",
-				minlength: "Please provide valid username."
+				minlength: "Please provide valid username.",
+				email: "Please enter a valid email address."
 			},
 			userPassword: {
 				required: "Enter your password to Login.",
-				minlength: "Incorrect login or password."
-			}
+				validPassword: "Password must be at least 8 characters long and can contain letters, numbers, and special characters."
+			},
+			confirmUserPassword: {
+				required: "Enter your password to Login.",
+				confirmPassword : "Passwords do not match."
+			},
+			
 		}
 	});
 
 }(jQuery);
 
+//VALIDATION FOR ONLY VALID LETTERS ALLOWED
+$.validator.addMethod("onlyLetters", function(value, element) {
+    return this.optional(element) || /^[a-zA-Z]+$/.test(value);
+});
 
+//VALIDATION FOR ONLY FULL NAME 
+$.validator.addMethod("validFullName", function(value, element) {
+    return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
+});
+
+//VALIDATION FOR ONLY PASSWORD REGEX 
+$.validator.addMethod("validPassword", function(value, element) {
+    // Customize your password validation logic here
+    // For example, require at least 8 characters
+    return this.optional(element) || /^[a-zA-Z0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]{8,}$/.test(value);
+});
+
+
+//VALIDATION FOR ONLY CONFIRM PASSWORD REGEX AND PASSWORD MATCH
+$.validator.addMethod("confirmPassword", function(value, element, param) {
+    return this.optional(element) || value === $(param).val();
+});
+
+
+//FUNCTION FOR PASSWORD MATCHES AND COMPARISON
 function checkPassword() {
 	let password = document.getElementById("userPassword").value;
 	let cnfrmPassword = document.getElementById("confirmUserPassword").value;
@@ -55,7 +121,6 @@ function checkPassword() {
 		if (password == cnfrmPassword) {
 			message.innerText = "password matched";
 			message.style.backgroundColor = "#1dcd59";
-			fetchDataFromFormToJson();
 		}
 		else {
 			message.innerText = "Sorry, Password match doesn't matching";
@@ -68,98 +133,34 @@ function checkPassword() {
 }
 
 
-async function fetchDataFromFormToJson() {
+function fetchDataFromFormToJson() {
 
-	/*var form = document.getElementById('formvalidate');
-	
-	var formData = new FormData(form);*/
-
-	var formData = new FormData($("#formvalidate"));
+	/*var formData = new FormData($("#formvalidate"));
 	formData.append("profile-photo", profile - photo.files[0]);
 
 	await fetch('validateUser', {
 		method: "POST",
 		body: formData,
 		success: document.forms["formvalidate"].reset(),
-	}).status
+	}).status*/
+	 var formData = new FormData();	
+	 var fileInput = document.getElementById("profile-photo");
+	 
+	 if (fileInput.files.length > 0) {
+        formData.append("profile-photo", fileInput.files[0]);
 
-	/*$.ajax({
-		url: "/validateUser",
-		type: "POST",
-		data: formData
-	})*/
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "validateUser", true);
 
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                alert("File uploaded successfully.");
+            }
+        };
 
-	/*var object = {};
-	    
-		formData.forEach((value, key) => object[key] = value);
-	    
-		var json = JSON.stringify(object);
-	    
-		fetch('/validateUser', {
-	 method: 'POST',
-	 body: json,
-	 headers: {
-	   'Content-Type': 'application/json'
-	 }
-   }).then((response) => {
-			 console.log(json);
-	 // handle the response from the servlet
-   });*/
+        xhr.send(formData);
+    } else {
+        alert("Please select a file to upload.");
+    }
 
-}
-
-
-function editEmployeeDetails(id) {
-	/*$.ajax({
-		type: 'GET',
-		url: "/Employee-Management-Portal/fetchUser",
-		cache: false,
-		success: function(response) {
-			var data = JSON.parse(response);
-			$("#fullName").val(data.fullName);
-			$("#phone").val(data.phone);
-			$("#tech").val(data.tech);
-			$("#profile-photo").val(data.profilePhotoUrl);
-			$("#userName").val(data.userName);
-			$("#userPassword").val(data.password);
-			$("#confirmUserPassword").val(data.confirmPassword);
-		},
-		error: function() {
-		}
-	});*/
-
-	/*fetch('http://localhost:8080/Employee-Management-Portal/fetchUser', {
-		method: 'GET',
-	})
-		.then(response => response.json())
-		.then(response => {
-			var data = JSON.stringify(response);
-			console.log(data);
-			$("#fullName").val(data.fullName);
-			$("#phone").val(data.phone);
-			$("#tech").val(data.tech);
-			$("#profile-photo").val(data.profilePhotoUrl);
-			$("#userName").val(data.userName);
-			$("#userPassword").val(data.password);
-			$("#confirmUserPassword").val(data.confirmPassword);
-		});*/
-
-
-	/*var xhr = new XMLHttpRequest();
-	// xhr.responseType = "json";
-	xhr.open("GET", "http://localhost:8080/Employee-Management-Portal/register.jsp?id="+);
-	var employee = JSON.parse(xhr.response);
-	console.log(employee);
-	xhr.onreadystatechange = function(){
-		if (xhr.readyState == 4 && xhr.status == 200) {
-			// Set the employee data to the input tag
-			document.getElementById("fullName").value = employee.fullName;
-			document.getElementById("phone").value = employee.phone;
-			document.getElementById("tech").value = employee.tech;
-		}
-	};
-
-	xhr.send();*/
-	
 }

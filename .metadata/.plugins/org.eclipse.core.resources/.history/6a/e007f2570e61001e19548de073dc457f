@@ -1,0 +1,148 @@
++ function($) {
+	$('.palceholder').click(function() {
+		$(this).siblings('input').focus();
+	});
+
+	$('.form-control').focus(function() {
+		$(this).parent().addClass("focused");
+	});
+
+	$('.form-control').blur(function() {
+		var $this = $(this);
+		if ($this.val().length == 0)
+			$(this).parent().removeClass("focused");
+	});
+	$('.form-control').blur();
+
+	// validetion
+	$.validator.setDefaults({
+		errorElement: 'span',
+		errorClass: 'validate-tooltip'
+	});
+
+	$("#formvalidate").validate({
+		rules: {
+			fullName: {
+				required: true,
+				minlength: 6,
+				validFullName: true
+			},
+			phone:{
+				required: true,
+				minlength: 10,
+				maxlength:10
+			},
+			tech:{
+				required: true,
+				minlength: 2,
+				onlyLetters: true
+			},
+			userName: {
+				required: true,
+				minlength: 6,
+				email: true
+			},
+			userPassword: {
+				required: true,
+				minlength: 6,
+				validPassword: true
+			},
+			
+			confirmUserPassword: {
+				required: true,
+				confirmPassword: true
+			}
+		},
+		messages: {
+			fullName: {
+				required: "Please enter your full name.",
+				minlength: "Please provide valid full name.",
+				validFullName: "Only letters [a-z and A-Z] are valid"
+			},
+			phone: {
+				required: "Please enter your phone.",
+				minlength: "Please provide valid phone [10 digits]."
+			},
+			tech: {
+				required: "Please enter your tech stack.",
+				minlength: "Please provide valid tech stack.",
+				onlyLetters: "Only letters [a-z and A-Z] are valid"
+			},
+			userName: {
+				required: "Please enter your username.",
+				minlength: "Please provide valid username.",
+				email: "Please enter a valid email address."
+			},
+			userPassword: {
+				required: "Enter your password to Login.",
+				validPassword: "Password must be at least 8 characters long and can contain letters, numbers, and special characters."
+			},
+			confirmUserPassword: {
+				required: "Enter your password to Login.",
+				confirmPassword : "Passwords do not match."
+			},
+			
+		}
+	});
+
+}(jQuery);
+
+//VALIDATION FOR ONLY VALID LETTERS ALLOWED
+$.validator.addMethod("onlyLetters", function(value, element) {
+    return this.optional(element) || /^[a-zA-Z]+$/.test(value);
+});
+
+//VALIDATION FOR ONLY FULL NAME 
+$.validator.addMethod("validFullName", function(value, element) {
+    return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
+});
+
+//VALIDATION FOR ONLY PASSWORD REGEX 
+$.validator.addMethod("validPassword", function(value, element) {
+    // Customize your password validation logic here
+    // For example, require at least 8 characters
+    return this.optional(element) || /^[a-zA-Z0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]{8,}$/.test(value);
+});
+
+
+//VALIDATION FOR ONLY CONFIRM PASSWORD REGEX AND PASSWORD MATCH
+$.validator.addMethod("confirmPassword", function(value, element, param) {
+    return this.optional(element) || value === $(param).val();
+});
+
+
+//FUNCTION FOR PASSWORD MATCHES AND COMPARISON
+function checkPassword() {
+	let password = document.getElementById("userPassword").value;
+	let cnfrmPassword = document.getElementById("confirmUserPassword").value;
+	let message = document.getElementById("message");
+	// console.log(" Password:", password,'\n',"Confirm Password:",cnfrmPassword);
+	if (password.length != 0) {
+		if (password == cnfrmPassword) {
+			message.innerText = "password matched";
+			message.style.backgroundColor = "#1dcd59";
+			fetchDataFromFormToJson();
+		}
+		else {
+			message.innerText = "Sorry, Password match doesn't matching";
+			message.style.backgroundColor = "#ff4d4d";
+		}
+	}
+	else {
+		message.innerText = "Sorry password can't be empty";
+	}
+}
+
+
+async function fetchDataFromFormToJson() {
+
+	var formData = new FormData($("#formvalidate"));
+	formData.append("profile-photo", profile - photo.files[0]);
+
+	await fetch('validateUser', {
+		method: "POST",
+		body: formData,
+		success: document.forms["formvalidate"].reset(),
+	}).status
+
+}*/

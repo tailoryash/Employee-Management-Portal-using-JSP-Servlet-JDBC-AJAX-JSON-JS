@@ -1,0 +1,23 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+</head>
+<body>
+<div class="container">
+        <h1>File Upload and Management</h1>
+        <a href="#" id="homeButton">Home</a>
+        <br><br>
+        <input type="file" id="fileInput" accept=".pdf, .xls, .xlsx, .jpg, .jpeg, .png, .gif">
+        <button id="uploadButton">Upload File</button>
+        <br><br>
+        <ul class="file-list" id="fileList">
+            <!-- Uploaded files will be listed here -->
+        </ul>
+    </div>
+</body>
+</html>
